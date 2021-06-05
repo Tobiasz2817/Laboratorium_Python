@@ -6,11 +6,10 @@ from sqlalchemy.util.langhelpers import string_or_unprintable
 
 if os.path.exists("college2.db"):
     os.remove("college2.db")
-# tworzymy instancję klasy Engine do obsługi bazy
+
 base = create_engine("sqlite:///college2.db")  # ':memory:'
-# klasa bazowa
+
 Team = declarative_base()
-# klasy do zadania
 class Zawodnicy(Team):
     __tablename__ = "zawodnicy"
     number_player = Column(Integer, primary_key=True)
@@ -25,17 +24,10 @@ class Mecze(Team):
     enemy = Column(String(100), nullable=False)
     the_best_player = Column(Integer, ForeignKey("zawodnicy.number_player"))
 
-
-# tworzymy tabele
 Team.metadata.create_all(base)
 
-# tworzymy sesję, która przechowuje obiekty i umożliwia "rozmowę" z bazą
 BDSesja = sessionmaker(bind=base)
 sesja = BDSesja()
-
-
-# Sprawdzamy czy jest pusta
-
 
 def check_if_empty_zawodnicy():
     if not sesja.query(Zawodnicy).count():
@@ -53,11 +45,6 @@ def check_if_empty_zawodnicy():
         else:
             print("Nie ma takiej opcji... Kończę pracę programu...")
             exit()
-
-
-# Dodajemy do tabelki bo nie możn apracować na pustej
-
-
 def add_player():
     number_player_new = int(input("Podaj proszę numer zawodnika : "))
     name_player_new = str(input("Podaj prosze imię zawodnika : "))
@@ -70,20 +57,10 @@ def add_player():
         )
     )
     read_player()
-
-
-# odczytujemy tabelkę zawodnicy
-
-
 def read_player():
     for zawodnicy in sesja.query(Zawodnicy).all():
         print(zawodnicy.number_player, zawodnicy.name_player, zawodnicy.last_nameplayer)
     print()
-
-
-# usuwamy z tabelki po imieniu i nazwisku zawodnika
-
-
 def delete_player():
     imie = str(input("Podaj imię i nazwisko zawodnika do usunięcia (Osobno)\ Imie : "))
     nazwisko = str(input("Nazwisko : "))
@@ -92,10 +69,6 @@ def delete_player():
     ).delete(synchronize_session="evaluate")
     sesja.commit()
     read_player()
-
-
-# zmienaimy wartości w tabelce na bazie numeru zawodnika filmu
-
 
 def update_player():
     ajdi = str(input("Podaj proszę numer zawodnika, którego chcesz edytować: \n"))
@@ -143,10 +116,6 @@ def check_if_empty_mecze():
         else:
             print("Nie ma takiej opcji... Kończę pracę programu...")
             exit()
-
-
-# dodaj mecz
-
 
 def add_match():
     number_of_game_new = int(input("Podaj proszę numer meczu: "))
