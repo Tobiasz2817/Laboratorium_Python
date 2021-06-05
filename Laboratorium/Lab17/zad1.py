@@ -84,30 +84,31 @@ class Film:
         s = Movie.select()
         conn.execute(s).fetchall()
     def Print(self):
+        s = input("Podaj czego szukasz , musisz podać dokładną i pełną nazwe : ")
         conn = engine.connect()
-        s = Movie.select().where(Movie.c.name=="Avengers")
+        s = Movie.select().where(Movie.c.name==s)
         result = conn.execute(s)
         for row in result:
             print (row)
 
 def Main():
-    filmy = Film("Avengers","KtosTam","xdd","Netflix")     
+    movie1 = Film("Avengers","KtosTam","xdd","Netflix")     
     while True:
         print("Witaj w menu ")
-        print("1.Pokaz Baze ") 
+        print("1.Szukaj Film  ") 
         print("2.Dodaj Filmy")        
         print("3.Usun Film ")        
         print("4.Upgrade Filmów ")   
         print("5.Wyjście ")  
         choise = int(input("Wybierz :"))
         if choise == 1:
-            filmy.Print()
+            movie1.Print()
         elif choise == 2:
-            filmy.Add_Movie()
+            movie1.Add_Movie()
         elif choise == 3:
-            filmy.Delete()
+            movie1.Delete()
         elif choise == 4:
-            filmy.Upgrade()
+            movie1.Upgrade()
         elif choise == 5:
             break
 
