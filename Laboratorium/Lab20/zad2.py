@@ -1,26 +1,34 @@
-import pytest 
-
-def Men_ppm(mass,heigh,age):
-    return (66 + (13.7 * mass) + (5 * heigh) + (6.76 *age))
-def Women_ppm(mass,heigh,age):
-    return (655 + (9.6 * mass) + (1.8 * heigh) + (4.7 *age))
-def Load_Information():
-    mass = input("Podaj swoją mase :")
-    heigh = input("Podaj swój wzrost :")
-    age = input("Podaj swój wiek :")
-    return mass,heigh,age
-
-def Menu():
-    List = []
-    whoam = input("Siema kim jestes :")
-    if whoam == "Panda":
-        print("Coś jest z tobą nie tak")
-    elif whoam == "Mezczyzna":
-        List = Load_Information()
-        print(Men_ppm(float(List[0]),float(List[1]),float(List[2])))            
-    elif whoam == "Kobieta":
-        List = Load_Information()
-        print(Women_ppm(float(List[0]),float(List[1]),float(List[2])))
+import unittest
 
 
-Menu()
+class TestPPM(unittest.TestCase):
+    def setUp(self) -> None:
+        self.w1 = BMR(60, 170, 20)
+        self.m1 = BMR(80, 185, 23)
+
+    def test_for_men(self):
+        # True
+        m1_check = self.m1.Men_ppm()
+        self.assertTrue(m1_check > 0)
+
+    def test_for_women(self):
+        # False
+        w1_check = self.w1.Women_ppm()
+        self.assertTrue(w1_check < 0)
+
+
+class BMR:
+    def __init__(self, mass, heigh, age):
+        self.mass = mass
+        self.heigh = heigh
+        self.age = age
+
+    def Men_ppm(self):
+        return 66 + (13.7 * self.mass) + (5 * self.heigh) + (6.76 * self.age)
+
+    def Women_ppm(self):
+        return 655 + (9.6 * self.mass) + (1.8 * self.heigh) + (4.7 * self.age)
+
+
+if __name__ == "__main__":
+    unittest.main()
